@@ -53,8 +53,8 @@
 }
 .rowItem {
   display: flex;
-  width: 30vh;
-  height: 50vh;
+  width: 40vw;
+  height: 80vh;
   flex: 1;
   flex-direction: column;
 }
@@ -80,15 +80,15 @@ button{
 
 
 button[slot="hotspot-hand"]{
-  --min-hotspot-opacity: 0;
+  --min-hotspot-opacity: 1;
   background-color: red;
   border-radius: 10px;
 }
 
-button[slot="hotspot-foot"]:not([data-visible]) {
+/* button[slot="hotspot-foot"]:not([data-visible]) {
   background-color: transparent;
   border: 3px solid red;
-}
+} */
 
 .inputBox {
   width: 400px;
@@ -100,3 +100,7 @@ button[slot="hotspot-foot"]:not([data-visible]) {
 .inputBoxWrapper {
   justify-content: center;
 }
+
+/* :not(:defined) > * {
+  display: none;
+} */
