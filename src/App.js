@@ -30,12 +30,12 @@ const HotSpots = ({selection}) => {
     const spots = Object.keys(data).map((name) =>{
       const slotName = "hotspot-hand" + name
       return (
-      <button slot={slotName}
+      <button slot={slotName} className={name === selection ? "visible" : null}
           data-position={data[name].dataPosition}
           data-normal={data[name].dataNormal}>
         <div id="annotation">{name}</div>
-      </button>    )})
-      
+      </button>
+    )})  
 
     return spots
 }
