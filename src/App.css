@@ -8,6 +8,15 @@
   justify-content: center;
 }
 
+.textLine{
+  text-align: left;
+  margin: 4px;
+}
+
+.isLink:hover{
+  color: rgba(241, 241, 59, 1);
+}
+
 .contentWrapper {
   max-width: 1000px;
   height: 100vh;
@@ -24,7 +33,7 @@
 
 .highlight{
   align-self: center;
-  max-width: 220px;
+  max-width: 260px;
   padding: 2px 80px;
   background: rgb(0 0 0 / 50%);
   border-radius: 20px;

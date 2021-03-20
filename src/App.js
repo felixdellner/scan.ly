@@ -4,29 +4,32 @@ import React, { useState, useEffect } from 'react';
 import InputBlock from './InputBlock'
 import TextHighlight from './TextHighlight'
 
+const inputText = "FINDINGS: There is normal lumbosacral vertebral body height and alignment on this supine, non-weight bearing exam. Vertebral body marrow signal is normal. The conus medullaris is normal and terminates at L1. T12-L1: Sagittal series-mild secondary discogenic facet change without stenosis. L1-L3: Sagittal series-normal disc spaces with patent canal and foramina. L3-L4: Series 6 image 10-normal disc space show mild/moderate facet arthrosis with patent canal and foramina. L4-L5: Image 21-mild to moderate decreased disc signal and disc height with mild endplate spondylitic change, bulge and a left paracentral disc herniation extruded superiorly, 7 mm AP by 16 mm mL by 14mm CC, with the left L5 nerve root sleeve impingement in the lateral recess, with severe right more than left facet arthrosis. Narrowing of the thecal sac, 8 mm, with mild left lateral recess stenosis, patent right lateral recess and mild to moderate left and mild right foraminal"
+const orginalSrc = 'https://cdn.glitch.com/2b03f5e7-2862-4b54-94ff-980cbc384186%2Fspine_default.glb?v=1616274977114'
+
 const HotSpots = ({selection}) => {
   const data = {
-    "Sacrum": {
-      dataPosition: "-0.5780835970207967m 12.383100107175464m 0.8460004398151098m",
-      dataNormal: "0.03495597933951483m 0.15497188046075835m 0.987300256140386m"
+    "T12": {
+    dataPosition: "2.363156456501347m 9.321591397198665m 1.4331525282193014m",
+    dataNormal: "0.05470006337332172m 0.9984165350372055m 0.013127285753547034m"
     },
-    "Cervical": {
-      dataPosition: "-1.0596636952244207m 32.34737046844669m 0.7617547072107841m",
-      dataNormal: "0.015912726067431132m -0.0034307482747116982m 0.9998674987794026m"
+    "L1": {
+    dataPosition: "3.295013293203919m 6.789724624383718m 1.8148962866728209m",
+    dataNormal: "0.842442998508682m 0.5340302558529746m 0.07142464628759235m"
     },
-    "Thoracic": {
-      dataPosition: "-3.6237639083956363m 24.706428355418197m -0.3802436130800346m",
-      dataNormal: "0.05899767776659567m 0.1553287392739275m 0.9860995166684351m"
+    "L3": {
+    dataPosition: "3.531537741177914m 5.416282536759944m 1.6646832066721184m",
+    dataNormal: "0.27678742621878316m 0.9609307754628429m -0.0008749031726036114m"
     },
-    "Lumbar": {
-      dataPosition: "-2.1453372438539127m 17.638328579853244m 1.2764668207031173m",
-      dataNormal: "0.6451203302324426m 0.506250786708821m 0.5723022806852024m"
+    "L4": {
+    dataPosition: "3.56413146810344m 4.059682469893231m 1.6528685590056014m",
+    dataNormal: "0.9846680073503973m -0.16847089599446086m 0.04523795423559223m"
     },
-    // "Coccyx": {
-    //   dataPosition: "1 1 1",
-    //   dataNormal: "1 0 0.5"
-    // },
-  } 
+    "L5": {
+    dataPosition:"3.154503351205559m 2.7007529194890267m 1.6406301086157387m",
+  dataNormal: "0.8911679585711741m -0.45086353050562544m 0.050415736393406484m"
+    },
+  }
     const spots = Object.keys(data).map((name) =>{
       const slotName = "hotspot-hand" + name
       return (
@@ -64,20 +67,105 @@ data = {
     body: JSON.stringify(data) // body data type must match "Content-Type" header
   });
   const r = await response.json();
-  console.log(r)
   return r // parses JSON response into native JavaScript objects
 }
 
 const filterKeyPhrases = (keyPhrases) => {
+  const keys = [
+    "mild left lateral recess stenosis",
+    "moderate left",
+    "disc height",
+    "mild right foraminal",
+    "left facet arthrosis",
+    "Sagittal series-normal disc spaces",
+    "left paracentral disc herniation",
+    "moderate decreased disc signal",
+    "Sagittal series-mild secondary discogenic facet change",
+     "moderate facet arthrosis",
+    "patent canal",
+    "L1-L3",
+    "normal lumbosacral vertebral body height",
+    "image",
+    "L4-L5",
+    "T12-L1",
+    "L3-L4",
+    "left L5 nerve root sleeve impingement",
+    "Vertebral body marrow signal",
+    "alignment",
+    "bulge",
+    "supine",
+    "non-weight",
+    "exam",
+    "FINDINGS",
+    "CC",
+    "conus medullaris",
+    "thecal sac",
+    "AP"]
 
+    const bones = ['L1']
+    
+    keys.forEach(phrase => { 
+      console.log(phrase)
+      if(phrase.length < 7 && (phrase[2] === '-' || phrase[3] === '-')){
+        bones.push(phrase)
+      }
+    });
+    console.log(bones)
+    return bones
+}
+
+const createLinks = (inputText, onClick) => {
+  let textLines = inputText.split('.');
+  let keyPhrases = filterKeyPhrases()
+
+  console.log(textLines)
+  
+  return textLines.map((line) => {
+    let keyWord = "" 
+    keyPhrases.forEach((key) => {
+      if(line.includes(key)) {
+        keyWord = key
+      } 
+    })
+    
+    return (<p className={keyWord !== "" ? "textLine isLink" : "textLine"} onClick={() => onClick(keyWord)}>{line+'.'}</p>)
+    }
+  )
 }
 
 function App() {
   const [activeSelection, setActiveSelection] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [userText, setUserText] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
   const [textToAnylize, setTextToAnylize] = useState(null);
-  const keyWords = ["Cervical", "Thoracic", "Lumbar", "Sacrum", "Coccyx"]
-  const [keyPhrases, setKeyPhrases] = useState([]);
+  const keyWords = ["T12", "L1", "L3", "L4", "L5"]
+  const sources = {
+      "L1-L3": {
+        select:"L1",
+        src:"https://cdn.glitch.com/423fd5dd-e15b-4d06-b8a2-e0895d14b533%2Fspine_l1-l3.glb?v=1616277772039"},
+      "L3-L4": {
+        select:"L3",
+        src:"https://cdn.glitch.com/423fd5dd-e15b-4d06-b8a2-e0895d14b533%2Fspine_l1-l3.glb?v=1616277772039"
+      },
+      "L1": {
+        select:"L1",
+        src:"https://cdn.glitch.com/423fd5dd-e15b-4d06-b8a2-e0895d14b533%2Fspine_l1.glb?v=1616277772481"
+      },
+      "L4-L5": {
+        select:"L4",
+        src:"https://cdn.glitch.com/423fd5dd-e15b-4d06-b8a2-e0895d14b533%2Fspine_l4-l5.glb?v=1616277772610"
+      },
+      "T12-L1": {
+        select:"T12",
+        src:"https://cdn.glitch.com/423fd5dd-e15b-4d06-b8a2-e0895d14b533%2Fspine_t12-l1.glb?v=1616277772949"
+      },
+      "L5-S1": {
+        select:"L5",
+        src:"https://cdn.glitch.com/423fd5dd-e15b-4d06-b8a2-e0895d14b533%2Fspine_l5-s1.glb?v=1616277772984"
+      }
+    }
+  const [keyPhrases, setKeyPhrases] = useState(filterKeyPhrases());
+  const [source, setSource] = useState(orginalSrc);
 
   const callApi = async () => {
     const result = await getData()
@@ -90,9 +178,16 @@ function App() {
     }
   }
 
+  const updateSelection = (selection) => {
+    console.log(selection)
+    setActiveSelection(sources[selection]?.select)
+    setSource(sources[selection]?.src ?? orginalSrc)
+  }
+
   useEffect(() => {
     document.title = `scan.ly`;
-    callApi()
+    // callApi()
+    // setUserText(createLinks(inputText))
   }, []);
 
   return (
@@ -106,19 +201,19 @@ function App() {
       :
       <div className="contentWrapper">
           <div className= "rowItem">
-            {keyPhrases.map((m) => <p>{m}</p>)}
-            <p>{textToAnylize}</p>
             <h2>Your MRI REPORT </h2>
-            {keyWords.map((word) =>
+            {createLinks(inputText, updateSelection)}
+            {/* <div className="Container" dangerouslySetInnerHTML={{__html: userText}}></div> */}
+            {/* {keyWords.map((word) =>
             <TextHighlight
               onClick={(t) => setActiveSelection(t)}
               text={word}
               activeSelection={activeSelection}
             />)
-            }
+            } */}
           </div>
           <div className= "rowItem">
-              <model-viewer ar ar-modes="webxr" src='spine2.glb' camera-controls auto-rotate style={{height: "500px", width: "500px"}} >
+              <model-viewer ar ar-modes="webxr" src={source} camera-controls auto-rotate style={{height: "500px", width: "500px"}} >
                   <HotSpots selection={activeSelection}></HotSpots>
               </model-viewer>
             </div>

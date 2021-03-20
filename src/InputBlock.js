@@ -6,12 +6,15 @@ import TextHighlight from './TextHighlight'
 export default function InputBlock ({onClick}) {
     return (
         <div className="inputBoxWrapper">
-            <h2>Enter some medical text here</h2>
-             <textarea className="inputBox" type="text" id="fname" name="medical" placeholder="medical text"/>
+            <h1>Scan.ly</h1>
+            
+            <h3>Upload file or photo to scan your medical report</h3>
+            <div>
              <TextHighlight
-                text="Analyze"
+                text="Choose file"
                 onClick={() => {onClick()}}
              />
+             </div>
         </div>
     )
 }
