@@ -14,19 +14,20 @@ const TextHighlight = ({text, onClick, activeSelection}) => {
     </div>
 )}
 
-const HotSpot = ({text, selection}) => {
-  const dataPostions = {
-    "Cervical": "-0.54 0.93 0.1", 
-    "Thoracic": 1,
-    "Lumbar": 1 ,
-    "Sacrum": 1 ,
-    "Coccyx": 1,
+const HotSpot = ({selection}) => {
+  const dataPosition = {
+    "Cervical": "-0.54 0.93 0.1",
+    "Thoracic": "0.5 0.3 0.1",
+    "Lumbar": "1 1 1",
+    "Sacrum": "1 0.93 0.1",
+    "Coccyx": "-0.4 0.93 0.1",
   }
-  return(
-    <button slot="hotspot-hand" data-position="-0.54 0.93 0.1" data-normal="-0.73 0.05 0.69">
-      <div id="annotation">{text}</div>
-    </button>
-  )
+
+  const position = dataPosition[selection]
+  return position ? 
+  <button slot="hotspot-hand" data-position={position} data-normal="-0.73 0.05 0.69">
+    <div id="annotation">{selection}</div>
+  </button> : null
 }
 
 function App() {
@@ -46,11 +47,11 @@ function App() {
             }
           </div>
           <div className= "rowItem">
-              <model-viewer className="modelDisplay" src='spine2.glb' camera-controls auto-rotate>
-                  <HotSpot text="text" selection={activeSelection}></HotSpot>
+              <model-viewer className="modelDisplay" width='500px' height="500px" src='spine2.glb' camera-controls auto-rotate>
+                  <HotSpot selection={activeSelection}></HotSpot>
                 </model-viewer>
             </div>
-          </div>
+        </div>
     </div>
   );
 }

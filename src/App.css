@@ -12,11 +12,18 @@
   max-width: 1000px;
   height: 100vh;
   width: 100vh;
+  display: flex;
   flex-direction: row;
   font-weight: bolder;
 }
 .modelDisplay{
+  height: 100vh;
+  width: 100vh;
+}
 
+.userInput{
+    height: 100vh;
+    width: 100vh;
 }
 
 .highlight{
@@ -50,14 +57,15 @@
 }
 .rowItem {
   display: flex;
-  width: 40vh;
+  width: 30vh;
   height: 50vh;
   flex: 1;
   flex-direction: column;
 }
 
 #annotation{
-  background-color: #888888;
+  background-color: #fff;
+  color: #4358ff;
   position: absolute;
   transform: translate(10px, 10px);
   border-radius: 10px;
@@ -67,4 +75,5 @@
 button[slot="hotspot-hand"]{
   --min-hotspot-opacity: 0;
   background-color: red;
+  border-radius: 10px;
 }
