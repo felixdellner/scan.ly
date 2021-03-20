@@ -1,23 +1,23 @@
 import logo from './logo.svg';
+import '@google/model-viewer';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+
+          <div className= "rowItem">
+            <h2>YOUR MRI REPORT</h2>
+            <p className="dangerous">Disc 6 internal tear</p>
+            <p className="warning">Disc 7 lumbic tear</p>
+            <p className="normal">Disc 4 normal</p>
+          </div>
+          <div  className= "rowItem">
+            <model-viewer className="modelDisplay" height="100vh" width="50vw"  src='spine2.glb' camera-controls auto-rotate/>
+          </div>
+
+
     </div>
   );
 }
