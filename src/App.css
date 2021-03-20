@@ -22,8 +22,8 @@
 }
 
 .userInput{
-    height: 100vh;
-    width: 100vh;
+  height: 100vh;
+  width: 100vh;
 }
 
 .highlight{
@@ -92,4 +92,15 @@ button[slot="hotspot-hand"]{
 button[slot="hotspot-foot"]:not([data-visible]) {
   background-color: transparent;
   border: 3px solid red;
+}
+
+.inputBox {
+  width: 400px;
+  height: 100px;
+  padding: 10px;
+  margin: 0 auto;
+}
+
+.inputBoxWrapper {
+  justify-content: center;
 }

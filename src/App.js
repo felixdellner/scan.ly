@@ -1,18 +1,8 @@
-import logo from './logo.svg';
 import '@google/model-viewer';
 import './App.css';
 import React, { useState } from 'react';
-
-const TextHighlight = ({text, onClick, activeSelection}) => {
-  const isSelected = text === activeSelection 
-  return(
-    <div className="highlight"
-         id={isSelected && "highlightSelected"}
-         onClick={() => onClick(text)} 
-    >
-      <p>{text}</p>
-    </div>
-)}
+import InputBlock from './InputBlock'
+import TextHighlight from './TextHighlight'
 
 const HotSpot = ({selection}) => {
   const dataPosition = {
@@ -49,11 +39,21 @@ const HotSpot = ({selection}) => {
 
 function App() {
   const [activeSelection, setActiveSelection] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
+  const [textToAnylize, setTextToAnylize] = useState(null);
+
   const keyWords = ["Cervical", "Thoracic", "Lumbar", "Sacrum", "Coccyx"]
   return (
     <div className="App">
+      {currentPage === 0 ? 
+      <InputBlock 
+        onClick={() => setCurrentPage(1)} 
+        setTextToAnylize={(t) => setTextToAnylize(t)}
+      /> 
+      :
       <div className="contentWrapper">
           <div className= "rowItem">
+            <p>{textToAnylize}</p>
             <h2>Your MRI REPORT </h2>
             {keyWords.map((word) => 
             <TextHighlight 
@@ -66,9 +66,10 @@ function App() {
           <div className= "rowItem">
               <model-viewer className="modelDisplay" width='500px' height="500px" src='spine2.glb' camera-controls auto-rotate>
                   <HotSpot selection={activeSelection}></HotSpot>
-                </model-viewer>
+              </model-viewer>
             </div>
         </div>
+}
     </div>
   );
 }
