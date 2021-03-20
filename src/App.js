@@ -64,7 +64,7 @@ function App() {
             }
           </div>
           <div className= "rowItem">
-              <model-viewer className="modelDisplay" id='modelViewer' src='spine2.glb' camera-controls auto-rotate style={{height: "100vh", width: "50vw"}} >
+              <model-viewer src='spine2.glb' camera-controls auto-rotate style={{height: "100vh", width: "50vw"}} >
                   <HotSpot selection={activeSelection}></HotSpot>
               </model-viewer>
             </div>
