@@ -29,9 +29,9 @@ const HotSpot = ({selection}) => {
   }
 
   const data = dataPosition[selection]
-  return data ? 
-  <button slot="hotspot-hand" 
-      data-position={data.position} 
+  return data ?
+  <button slot="hotspot-hand"
+      data-position={data.position}
       data-normal={data.position}>
     <div id="annotation">{selection}</div>
   </button> : null
@@ -45,18 +45,18 @@ function App() {
   const keyWords = ["Cervical", "Thoracic", "Lumbar", "Sacrum", "Coccyx"]
   return (
     <div className="App">
-      {currentPage === 0 ? 
-      <InputBlock 
-        onClick={() => setCurrentPage(1)} 
+      {currentPage === 0 ?
+      <InputBlock
+        onClick={() => setCurrentPage(1)}
         setTextToAnylize={(t) => setTextToAnylize(t)}
-      /> 
+      />
       :
       <div className="contentWrapper">
           <div className= "rowItem">
             <p>{textToAnylize}</p>
             <h2>Your MRI REPORT </h2>
-            {keyWords.map((word) => 
-            <TextHighlight 
+            {keyWords.map((word) =>
+            <TextHighlight
               onClick={(t) => setActiveSelection(t)}
               text={word}
               activeSelection={activeSelection}
@@ -64,7 +64,7 @@ function App() {
             }
           </div>
           <div className= "rowItem">
-              <model-viewer className="modelDisplay" width='500px' height="500px" src='spine2.glb' camera-controls auto-rotate>
+              <model-viewer className="modelDisplay" id='modelViewer' src='spine2.glb' camera-controls auto-rotate style={{height: "100vh", width: "50vw"}} >
                   <HotSpot selection={activeSelection}></HotSpot>
               </model-viewer>
             </div>

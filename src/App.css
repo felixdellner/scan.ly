@@ -21,6 +21,10 @@
   width: 100vh;
 }
 
+.modelViewer {
+  height: 100vh;
+  width: 100vh;
+}
 .userInput{
   height: 100vh;
   width: 100vh;
