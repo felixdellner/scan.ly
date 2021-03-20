@@ -16,16 +16,33 @@ const TextHighlight = ({text, onClick, activeSelection}) => {
 
 const HotSpot = ({selection}) => {
   const dataPosition = {
-    "Cervical": "-0.54 0.93 0.1",
-    "Thoracic": "0.5 0.3 0.1",
-    "Lumbar": "1 1 1",
-    "Sacrum": "1 0.93 0.1",
-    "Coccyx": "-0.4 0.93 0.1",
+    "Cervical": {
+      dataPosition: "1 0 1",
+      dataNormal: "1 1 1"
+    },
+    "Thoracic": {
+      dataPosition: "1 0 1",
+      dataNormal: "1 0 1"
+    },
+    "Lumbar": {
+      dataPosition: "1 0 0",
+      dataNormal: "1 0 1"
+    },
+    "Sacrum": {
+      dataPosition: "1 1 1",
+      dataNormal: "1 0 1"
+    },
+    "Coccyx": {
+      dataPosition: "1 1 1",
+      dataNormal: "1 0 0.5"
+    },
   }
 
-  const position = dataPosition[selection]
-  return position ? 
-  <button slot="hotspot-hand" data-position={position} data-normal="-0.73 0.05 0.69">
+  const data = dataPosition[selection]
+  return data ? 
+  <button slot="hotspot-hand" 
+      data-position={data.position} 
+      data-normal={data.position}>
     <div id="annotation">{selection}</div>
   </button> : null
 }

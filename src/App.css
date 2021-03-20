@@ -72,8 +72,24 @@
   padding: 10px;
 }
 
+button{
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 7px;
+  border: none;
+  background-color: blue;
+  box-sizing: border-box;
+}
+
+
 button[slot="hotspot-hand"]{
   --min-hotspot-opacity: 0;
   background-color: red;
   border-radius: 10px;
+}
+
+button[slot="hotspot-foot"]:not([data-visible]) {
+  background-color: transparent;
+  border: 3px solid red;
 }
