@@ -4,14 +4,41 @@
   display: flex;
   color: white;
   height: 100vh;
-  justify-content: space-around;
+  width: 100vw;
+  justify-content: center;
+}
+
+.contentWrapper {
+  max-width: 1000px;
+  height: 100vh;
+  width: 100vh;
   flex-direction: row;
   font-weight: bolder;
 }
 .modelDisplay{
-  height: 100vh;
-  width: 50vw;
+
 }
+
+.highlight{
+  align-self: center;
+  max-width: 220px;
+  padding: 2px 80px;
+  background: rgb(0 0 0 / 50%);
+  border-radius: 20px;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  font-size: 14px;
+  margin: 5px
+}
+
+#highlightSelected {
+  background: rgba(0, 224, 0, 0.7);
+}
+
+.highlight:hover {
+  background: rgba(15, 170, 15, 0.6);
+}
+
 .dangerous{
   background-color: rgba(224, 0, 0, 0.5);
 }
@@ -23,5 +50,21 @@
 }
 .rowItem {
   display: flex;
+  width: 40vh;
+  height: 50vh;
+  flex: 1;
   flex-direction: column;
+}
+
+#annotation{
+  background-color: #888888;
+  position: absolute;
+  transform: translate(10px, 10px);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+button[slot="hotspot-hand"]{
+  --min-hotspot-opacity: 0;
+  background-color: red;
 }
