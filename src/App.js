@@ -19,8 +19,8 @@ const HotSpot = ({selection}) => {
       dataNormal: "1 0 1"
     },
     "Sacrum": {
-      dataPosition: "1 1 1",
-      dataNormal: "1 0 1"
+      dataPosition: "-2.627 11.6 0.19",
+      dataNormal: "-0.8 0.37 0.482"
     },
     "Coccyx": {
       dataPosition: "1 1 1",
@@ -31,8 +31,8 @@ const HotSpot = ({selection}) => {
   const data = dataPosition[selection]
   return data ?
   <button slot="hotspot-hand"
-      data-position={data.position}
-      data-normal={data.position}>
+      data-position={data.dataPosition}
+      data-normal={data.dataNormal}>
     <div id="annotation">{selection}</div>
   </button> : null
 }
@@ -65,7 +65,12 @@ function App() {
           </div>
           <div className= "rowItem">
               <model-viewer src='spine2.glb' camera-controls auto-rotate style={{height: "100vh", width: "50vw"}} >
+
+
                   <HotSpot selection={activeSelection}></HotSpot>
+                  <button slot="Sacrum" data-position="-2.627 11.6 0.19" data-normal="-0.8 0.37 0.482">
+                    <div id="annotation">Hard-coded Sacrum</div>
+                  </button>
               </model-viewer>
             </div>
         </div>
