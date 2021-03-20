@@ -1,6 +1,6 @@
 import '@google/model-viewer';
 import './App.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import InputBlock from './InputBlock'
 import TextHighlight from './TextHighlight'
 
@@ -40,16 +40,64 @@ const HotSpots = ({selection}) => {
     return spots
 }
 
+async function getData(url = "https://scanly1.cognitiveservices.azure.com/text/analytics/v3.1-preview.1/keyPhrases?showStats=true", 
+data = {
+    "documents": [
+      {
+        "language": "en",
+        "id": "1",
+        "text": "FINDINGS: There is normal lumbosacral vertebral body height and alignment on this supine, non-weight bearing exam. Vertebral body marrow signal is normal. The conus medullaris is normal and terminates at L1. T12-L1: Sagittal series-mild secondary discogenic facet change without stenosis. L1-L3: Sagittal series-normal disc spaces with patent canal and foramina. L3-L4: Series 6 image 10-normal disc space show mild/moderate facet arthrosis with patent canal and foramina. L4-L5: Image 21-mild to moderate decreased disc signal and disc height with mild endplate spondylitic change, bulge and a left paracentral disc herniation extruded superiorly, 7 mm AP by 16 mm mL by 14mm CC, with the left L5 nerve root sleeve impingement in the lateral recess, with severe right more than left facet arthrosis. Narrowing of the thecal sac, 8 mm, with mild left lateral recess stenosis, patent right lateral recess and mild to moderate left and mild right foraminal"
+      }]
+}) {
+  const response = await fetch(url, {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json',
+      'Ocp-Apim-Subscription-Key': 'a5bdde0df40b41f58f6fef2d4566c345'
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: 'follow', // manual, *follow, error
+    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: JSON.stringify(data) // body data type must match "Content-Type" header
+  });
+  const r = await response.json();
+  console.log(r)
+  return r // parses JSON response into native JavaScript objects
+}
+
+const filterKeyPhrases = (keyPhrases) => {
+
+}
+
 function App() {
   const [activeSelection, setActiveSelection] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [textToAnylize, setTextToAnylize] = useState(null);
-
   const keyWords = ["Cervical", "Thoracic", "Lumbar", "Sacrum", "Coccyx"]
+  const [keyPhrases, setKeyPhrases] = useState([]);
+
+  const callApi = async () => {
+    const result = await getData()
+    const keyPhrases = result?.documents[0].keyPhrases
+    console.log(result)
+    console.log(keyPhrases)
+    if(keyPhrases){
+      filterKeyPhrases(keyPhrases)
+      setKeyPhrases(keyPhrases)
+    }
+  }
+
+  useEffect(() => {
+    document.title = `scan.ly`;
+    callApi()
+  }, []);
+
   return (
     <div className="App">
-        {/* <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-<script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script> */}
+
       {currentPage === 0 ?
       <InputBlock
         onClick={() => setCurrentPage(1)}
@@ -58,6 +106,7 @@ function App() {
       :
       <div className="contentWrapper">
           <div className= "rowItem">
+            {keyPhrases.map((m) => <p>{m}</p>)}
             <p>{textToAnylize}</p>
             <h2>Your MRI REPORT </h2>
             {keyWords.map((word) =>
@@ -69,15 +118,8 @@ function App() {
             }
           </div>
           <div className= "rowItem">
-              <model-viewer 
-              ar ar-modes="webxr" src='spine2.glb' camera-controls auto-rotate style={{height: "500px", width: "500px"}} >
-              {/* <div id="annotation">This annotation is fixed in screen-space</div> */}
+              <model-viewer ar ar-modes="webxr" src='spine2.glb' camera-controls auto-rotate style={{height: "500px", width: "500px"}} >
                   <HotSpots selection={activeSelection}></HotSpots>
-                  {/* <button slot="hotspot-hand" data-position="-1.627 11.6 0.19" data-normal="-0.8 0.37 0.482">
-                    <div id="annotation">Hard-coded Sacrum</div>
-                  </button> */}
-                  {/* <button slot="hotspot-hand" ></button>
-                  <div slot="hotspot-hand"></div> */}
               </model-viewer>
             </div>
         </div>
