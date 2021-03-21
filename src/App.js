@@ -136,7 +136,7 @@ const createLinks = (inputText, onClick) => {
 function App() {
   const [activeSelection, setActiveSelection] = useState("");
   const [userText, setUserText] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [textToAnylize, setTextToAnylize] = useState(null);
   const [PhraseDescription, setPhraseDescription] = useState(null);
   const keyWords = ["T12", "L1", "L3", "L4", "L5"]
@@ -144,7 +144,7 @@ function App() {
 
   const sources = {
       "L1-L3": {
-        description:" test ",
+        description:"It can be treated by a medical professional with steroids, but you can also improve your situation by avoiding heavy lifting and intense back movement.",
         select:"L1",
         src:"https://cdn.glitch.com/423fd5dd-e15b-4d06-b8a2-e0895d14b533%2Fspine_l1-l3.glb?v=1616277772039"},
       "L3-L4": {
@@ -153,14 +153,17 @@ function App() {
         src:"https://cdn.glitch.com/423fd5dd-e15b-4d06-b8a2-e0895d14b533%2Fspine_l1-l3.glb?v=1616277772039"
       },
       "L1": {
+        description: "Medical professional with steroids, but you can also improve your situation by avoiding heavy lifting and intense back movement.",
         select:"L1",
         src:"https://cdn.glitch.com/423fd5dd-e15b-4d06-b8a2-e0895d14b533%2Fspine_l1.glb?v=1616277772481"
       },
       "L4-L5": {
+        description: "Spinal disc herniation is an injury to the cushioning and connective tissue between vertebrae, usually caused by excessive strain or trauma to the spine. It can be a serious condition, but most cases do not need surgery. Massage and other physical therapy might help.",
         select:"L4",
         src:"https://cdn.glitch.com/423fd5dd-e15b-4d06-b8a2-e0895d14b533%2Fspine_l4-l5.glb?v=1616277772610"
       },
       "T12-L1": {
+        description: "Improve your situation by avoiding heavy lifting and intense back movement.",
         select:"T12",
         src:"https://cdn.glitch.com/423fd5dd-e15b-4d06-b8a2-e0895d14b533%2Fspine_t12-l1.glb?v=1616277772949"
       },
@@ -214,7 +217,7 @@ function App() {
               <model-viewer ar ar-modes="webxr" src={source} camera-controls auto-rotate style={{height: "500px", width: "500px"}} >
                   <HotSpots selection={activeSelection}></HotSpots>
               </model-viewer>
-              {PhraseDescription && <div className="tipBox"><p>{"What it means: " + PhraseDescription}</p></div>}
+              {PhraseDescription && <div className="tipBox"><p>What it means:</p><p>{PhraseDescription}</p><p>(UMLS C0009044)</p></div>}
 
             </div>
         </div>
