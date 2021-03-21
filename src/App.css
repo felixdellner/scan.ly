@@ -31,6 +31,17 @@
   width: 100vh;
 }
 
+.tipBox {
+  width: 100%;
+  min-height: 80px;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 0px solid #000;
+  color: #4358ff;
+  margin: 20px 15px;
+  padding: 20px;
+}
+
 .highlight{
   align-self: center;
   max-width: 260px;
@@ -98,11 +109,6 @@ button[slot="hotspot-hand"]{
   border-radius: 10px;
 }
 
-/* button[slot="hotspot-foot"]:not([data-visible]) {
-  background-color: transparent;
-  border: 3px solid red;
-} */
-
 .inputBox {
   width: 400px;
   height: 100px;
@@ -113,7 +119,3 @@ button[slot="hotspot-hand"]{
 .inputBoxWrapper {
   justify-content: center;
 }
-
-/* :not(:defined) > * {
-  display: none;
-} */

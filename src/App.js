@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import InputBlock from './InputBlock'
 import TextHighlight from './TextHighlight'
 
-const inputText = "FINDINGS: There is normal lumbosacral vertebral body height and alignment on this supine, non-weight bearing exam. Vertebral body marrow signal is normal. The conus medullaris is normal and terminates at L1. T12-L1: Sagittal series-mild secondary discogenic facet change without stenosis. L1-L3: Sagittal series-normal disc spaces with patent canal and foramina. L3-L4: Series 6 image 10-normal disc space show mild/moderate facet arthrosis with patent canal and foramina. L4-L5: Image 21-mild to moderate decreased disc signal and disc height with mild endplate spondylitic change, bulge and a left paracentral disc herniation extruded superiorly, 7 mm AP by 16 mm mL by 14mm CC, with the left L5 nerve root sleeve impingement in the lateral recess, with severe right more than left facet arthrosis. Narrowing of the thecal sac, 8 mm, with mild left lateral recess stenosis, patent right lateral recess and mild to moderate left and mild right foraminal"
+const inputText = "There is normal lumbosacral vertebral body height and alignment on this supine, non-weight bearing exam. Vertebral body marrow signal is normal. The conus medullaris is normal and terminates at L1. T12-L1: Sagittal series-mild secondary discogenic facet change without stenosis. L1-L3: Sagittal series-normal disc spaces with patent canal and foramina. L3-L4: Series 6 image 10-normal disc space show mild/moderate facet arthrosis with patent canal and foramina. L4-L5: Image 21-mild to moderate decreased disc signal and disc height with mild endplate spondylitic change, bulge and a left paracentral disc herniation extruded superiorly, 7 mm AP by 16 mm mL by 14mm CC, with the left L5 nerve root sleeve impingement in the lateral recess, with severe right more than left facet arthrosis. Narrowing of the thecal sac, 8 mm, with mild left lateral recess stenosis, patent right lateral recess and mild to moderate left and mild right foraminal"
 const orginalSrc = 'https://cdn.glitch.com/2b03f5e7-2862-4b54-94ff-980cbc384186%2Fspine_default.glb?v=1616274977114'
 
 const HotSpots = ({selection}) => {
@@ -136,14 +136,19 @@ const createLinks = (inputText, onClick) => {
 function App() {
   const [activeSelection, setActiveSelection] = useState("");
   const [userText, setUserText] = useState("");
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [textToAnylize, setTextToAnylize] = useState(null);
+  const [PhraseDescription, setPhraseDescription] = useState(null);
   const keyWords = ["T12", "L1", "L3", "L4", "L5"]
+
+
   const sources = {
       "L1-L3": {
+        description:" test ",
         select:"L1",
         src:"https://cdn.glitch.com/423fd5dd-e15b-4d06-b8a2-e0895d14b533%2Fspine_l1-l3.glb?v=1616277772039"},
       "L3-L4": {
+        description: "Facet athrosis means that the joints between the bones is degenerating. It can be treated by a medical professional with steroids, but you can also improve your situation by avoiding heavy lifting and intense back movement.",
         select:"L3",
         src:"https://cdn.glitch.com/423fd5dd-e15b-4d06-b8a2-e0895d14b533%2Fspine_l1-l3.glb?v=1616277772039"
       },
@@ -179,9 +184,11 @@ function App() {
   }
 
   const updateSelection = (selection) => {
-    console.log(selection)
+    // get data
+
     setActiveSelection(sources[selection]?.select)
     setSource(sources[selection]?.src ?? orginalSrc)
+    setPhraseDescription(sources[selection]?.description)
   }
 
   useEffect(() => {
@@ -192,7 +199,6 @@ function App() {
 
   return (
     <div className="App">
-
       {currentPage === 0 ?
       <InputBlock
         onClick={() => setCurrentPage(1)}
@@ -201,21 +207,15 @@ function App() {
       :
       <div className="contentWrapper">
           <div className= "rowItem">
-            <h2>Your MRI REPORT </h2>
+            <h2>Your MRI Report </h2>
             {createLinks(inputText, updateSelection)}
-            {/* <div className="Container" dangerouslySetInnerHTML={{__html: userText}}></div> */}
-            {/* {keyWords.map((word) =>
-            <TextHighlight
-              onClick={(t) => setActiveSelection(t)}
-              text={word}
-              activeSelection={activeSelection}
-            />)
-            } */}
           </div>
           <div className= "rowItem">
               <model-viewer ar ar-modes="webxr" src={source} camera-controls auto-rotate style={{height: "500px", width: "500px"}} >
                   <HotSpots selection={activeSelection}></HotSpots>
               </model-viewer>
+              {PhraseDescription && <div className="tipBox"><p>{"What it means: " + PhraseDescription}</p></div>}
+
             </div>
         </div>
   }
