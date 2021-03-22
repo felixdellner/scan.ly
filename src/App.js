@@ -38,12 +38,12 @@ const HotSpots = ({selection}) => {
           data-normal={data[name].dataNormal}>
         <div id="annotation">{name}</div>
       </button>
-    )})  
+    )})
 
     return spots
 }
 
-async function getData(url = "https://scanly1.cognitiveservices.azure.com/text/analytics/v3.1-preview.1/keyPhrases?showStats=true", 
+async function getData(url = "https://scanly1.cognitiveservices.azure.com/text/analytics/v3.1-preview.1/keyPhrases?showStats=true",
 data = {
     "documents": [
       {
@@ -59,7 +59,7 @@ data = {
     credentials: 'same-origin', // include, *same-origin, omit
     headers: {
       'Content-Type': 'application/json',
-      'Ocp-Apim-Subscription-Key': 'a5bdde0df40b41f58f6fef2d4566c345'
+      'Ocp-Apim-Subscription-Key': 'YOURKEYHERE'
       // 'Content-Type': 'application/x-www-form-urlencoded',
     },
     redirect: 'follow', // manual, *follow, error
@@ -103,8 +103,8 @@ const filterKeyPhrases = (keyPhrases) => {
     "AP"]
 
     const bones = ['L1']
-    
-    keys.forEach(phrase => { 
+
+    keys.forEach(phrase => {
       console.log(phrase)
       if(phrase.length < 7 && (phrase[2] === '-' || phrase[3] === '-')){
         bones.push(phrase)
@@ -119,15 +119,15 @@ const createLinks = (inputText, onClick) => {
   let keyPhrases = filterKeyPhrases()
 
   console.log(textLines)
-  
+
   return textLines.map((line) => {
-    let keyWord = "" 
+    let keyWord = ""
     keyPhrases.forEach((key) => {
       if(line.includes(key)) {
         keyWord = key
-      } 
+      }
     })
-    
+
     return (<p className={keyWord !== "" ? "textLine isLink" : "textLine"} onClick={() => onClick(keyWord)}>{line+'.'}</p>)
     }
   )
